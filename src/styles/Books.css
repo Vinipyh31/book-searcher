@@ -1,0 +1,24 @@
+.book-list {
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 30px;
+    column-gap: 30px;
+}
+
+.book-list_item {
+    display: flex;
+    flex-direction: column;
+    column-gap: 10px;
+    background-color: #F3F2F0;
+    width: 320px;
+    padding: 30px 20px 20px;
+}
+
+.book-list_item--image {
+    align-self: center;
+    display: block;
+    margin-bottom: 20px;
+    box-shadow: 9px 9px 29px -4px rgba(34, 60, 80, 0.66);
+}
