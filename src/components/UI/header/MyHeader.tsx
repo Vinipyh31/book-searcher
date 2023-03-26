@@ -8,7 +8,7 @@ const MyHeader = observer(() => {
     return (
         <div className={cl.header}>
             <div className={cl.headerContent}>
-                <h1>Search for books</h1>
+                <h1>Поиск книг</h1>
                 <Search/>
                 <Filters/>
             </div>
