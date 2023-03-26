@@ -13,7 +13,7 @@ interface IPanelizationSummary {
     containsImageBubbles: boolean;
 }
 
-interface IImageLinks {
+export interface IImageLinks {
     smallThumbnail?: string;
     thumbnail?: string;
     small?: string;
@@ -44,6 +44,12 @@ interface IVolumeInfo {
     categories?: string[];
 }
 
+export interface IBookRequest {
+    items: IBookItem[];
+    kind: string;
+    totalItems: number;
+}
+
 export interface IBookItem {
     kind: string;
     id: string;
@@ -51,3 +57,17 @@ export interface IBookItem {
     selfLink: string;
     volumeInfo: IVolumeInfo;
 }
+
+export type CategoriesTypes ='all' | 
+    'art' | 
+    'biography' | 
+    'computers' | 
+    'history' | 
+    'medical' | 
+    'poetry';
+
+
+export type SortTypes =
+    'relevance' |
+    'newest'
+

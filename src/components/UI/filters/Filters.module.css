@@ -1,0 +1,12 @@
+.filters {
+    display: flex;
+    column-gap: 20px;
+}
+
+.filterItem {
+    font-size: 18px;
+    font-weight: 500;
+}
+.filterItem select{
+    font-size: 18px;
+}

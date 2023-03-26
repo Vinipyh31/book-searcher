@@ -1,18 +1,24 @@
 import axios from "axios";
 import { makeAutoObservable } from "mobx";
-import { IBookItem } from "../components/types";
+import { IBookItem, IBookRequest } from "../components/types";
 import { API_KEY } from "../config";
+import header from "./header";
 
 class Books {
 
-    isLoading = false;
-    startIndex: number = 0;
+    private startIndex = 0;
 
+    totalBooks = 0;
+    isLoading = false;
     bookList: IBookItem[] = [];
-    bookItem: IBookItem = {} as IBookItem;
+    bookItem: IBookItem | undefined;
 
     constructor() {
         makeAutoObservable(this);
+    }
+
+    setStartIndex(index: number) {
+        this.startIndex = index;
     }
 
     setIsLoading(value: boolean): void {
@@ -26,25 +32,47 @@ class Books {
         this.bookItem = book;
     }
 
+    setTotalBooks(items: number): void {
+        this.totalBooks = items;
+    }
+
     async loadBookList(query: string) {
-        this.startIndex = 0;
+        this.setStartIndex(0);
         this.setIsLoading(true);
-        const req = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=30&key=${API_KEY}`);
-        this.setBookList(req.data.items);
+        const req = await axios.get('https://www.googleapis.com/books/v1/volumes', {
+            params: {
+                q: `${query} ${header.category === 'all' ? '' : `subject:${header.category}`}`,
+                orderBy: header.sort,
+                maxResults: 30,
+                key: API_KEY
+            }
+        });
+        const data: IBookRequest = req.data;
+        this.setTotalBooks(data.totalItems)
+        this.setBookList(data.items);
         this.setIsLoading(false);
     }
 
     async loadMoreBooks(query: string) {
-        this.startIndex += 30;
-        console.log(this.startIndex);
-        const req = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${this.startIndex}&maxResults=30&key=${API_KEY}`);
+        this.setStartIndex(this.startIndex + 30);
+        const req = await axios.get('https://www.googleapis.com/books/v1/volumes', {
+            params: {
+                q: `${query} ${header.category === 'all' ? '' : `subject:${header.category}`}`,
+                orderBy: header.sort,
+                startIndex: this.startIndex,
+                maxResults: 30,
+                key: API_KEY
+            }
+        });
         this.setBookList([...this.bookList, ...req.data.items]);
     }
 
 
     async loadBookItem(id: string) {
-        const req = await axios.get(`https://www.googleapis.com/books/v1/volumes/${id}`);
-        this.setBookItem(req.data.items);
+        this.setIsLoading(true);
+        const req = await axios.get(`https://www.googleapis.com/books/v1/volumes/${id}`);        
+        this.setBookItem(req.data);
+        this.setIsLoading(false);
     }
 }
 

@@ -1,14 +1,9 @@
-import React, { useState } from 'react'
-import BookList from '../BookList'
-import Loader from '../UI/Loader/Loader'
 import { observer } from 'mobx-react-lite'
 import books from '../../store/books'
-import '../../styles/Books.css';
+import '../../styles/Books.css'
+import BookList from '../BookList'
+import Loader from '../UI/Loader/Loader'
 import Pagination from '../UI/pagination/Pagination'
-
-
-
-// 
 
 const Books = observer(() => {
   return (
@@ -18,9 +13,15 @@ const Books = observer(() => {
           <Loader />
           :
           <>
-            <BookList />
-            {books.bookList.length && 
-              <Pagination/>
+            <div className='total-books'>
+              {`Найдено ${books.totalBooks} результатов `}
+            </div>
+            {
+              !!books.totalBooks &&
+              <>
+                <BookList />
+                <Pagination />
+              </>
             }
           </>
       }
