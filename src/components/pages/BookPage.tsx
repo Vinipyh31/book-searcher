@@ -21,9 +21,14 @@ const BookPage = observer(() => {
     navigate(-1);
   }
 
-  const getBestImage = (obj : IImageLinks | undefined): string | undefined => {
+  const getBestImage = (obj: IImageLinks | undefined): string | undefined => {
     if (!obj) return undefined;
     return obj['small'] || obj['thumbnail'] || obj['smallThumbnail'];
+  }
+
+  const isHtml = (str: string | undefined): boolean => {
+    if (!str) return false;
+    return /<[a-z][\s\S]*>/i.test(str);
   }
 
   return (
@@ -41,7 +46,12 @@ const BookPage = observer(() => {
               <div className='book-info--categories'>{books.bookItem?.volumeInfo.categories}</div>
               <div className='book-info--title'>{books.bookItem?.volumeInfo.title}</div>
               <div className='book-info--authors'>{books.bookItem?.volumeInfo.authors?.join(', ')}</div>
-              <div className='book-info--description'>{books.bookItem?.volumeInfo.description}</div>
+              {
+                isHtml(books.bookItem?.volumeInfo.description) ?
+                  <div className='book-info--description' dangerouslySetInnerHTML={{ __html: books.bookItem?.volumeInfo.description || '' }}></div> 
+                  :
+                  <div className='book-info--description'>{books.bookItem?.volumeInfo.description}</div>
+              }
             </div>
           </div>
       }
