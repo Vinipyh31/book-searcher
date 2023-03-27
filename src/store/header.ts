@@ -1,7 +1,5 @@
-import axios from "axios";
 import { makeAutoObservable } from "mobx";
-import { CategoriesTypes, IBookItem, SortTypes } from "../components/types";
-import { API_KEY } from "../config";
+import { CategoriesTypes, SortTypes } from "../components/types";
 
 
 
