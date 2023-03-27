@@ -4,7 +4,7 @@ import Search from '../search/Search';
 import cl from "./MyHeader.module.css";
 
 
-const MyHeader = observer(() => {
+const MyHeader = () => {
     return (
         <div className={cl.header}>
             <div className={cl.headerContent}>
@@ -14,6 +14,6 @@ const MyHeader = observer(() => {
             </div>
         </div>
     )
-})
+}
 
 export default MyHeader
